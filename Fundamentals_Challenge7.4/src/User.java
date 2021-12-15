@@ -40,7 +40,7 @@ public class User {
 
 		} catch (Exception e) {
 
-			System.out.println("Date Error: " + e);
+			System.out.println("Error: " + e);
 
 		}
 
@@ -57,20 +57,20 @@ public class User {
 		// Convert distance to miles
 		double mileDist = user.getDist() * 0.621371;
 
-		System.out.println("Distance to your favorute store(miles): " + mileDist + " miles");
+		System.out.println("Distance to your favorute store(miles): " + mileDist);
 
 		// Convert distance to meters
 		double meterDist = user.getDist() * 1000;
-		System.out.println("Distance to your favorute store(meters): " + meterDist + " meters");
+		System.out.println("Distance to your favorute store(meters): " + meterDist);
 
 		// Convert age to seconds
 		int ageSec = user.getAge() * 31556952;
 
-		System.out.println("Age in seconds: " + ageSec + " s");
+		System.out.println("Age(seconds): " + ageSec);
 
 		// Convert age to milliseconds
 		int ageMilli = (int) (user.getAge() * 31556952000l);
-		System.out.println("Age in milliseconds: " + ageMilli + " ms");
+		System.out.println("Age(milliseconds): " + ageMilli);
 
 		// Convert year to binary
 

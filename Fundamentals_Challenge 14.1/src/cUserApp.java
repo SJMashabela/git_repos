@@ -8,6 +8,7 @@ public class cUserApp {
 
 	private static Scanner sc = new Scanner(System.in);
 	private static ArrayList<cUserData> arrUser = new ArrayList();
+	private static String temp;
 	private static int monthN[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	private static cUserData objUser = null;
 
@@ -27,7 +28,6 @@ public class cUserApp {
 					break;
 				case 2:
 					update();
-
 					break;
 				case 3:
 					delete();
@@ -43,6 +43,7 @@ public class cUserApp {
 			}
 		} catch (Exception e) {
 
+			System.out.println("Error " + e.getMessage());
 		}
 
 	}
@@ -52,20 +53,22 @@ public class cUserApp {
 	public static void delete() {
 
 		System.out.println("Enter your email: ");
-		String temp = sc.next();
+		temp = sc.next();
 
-		int i;
-		for (i = 0; i < arrUser.size(); i++) {
+		for (cUserData user : arrUser) {
+			int indx = arrUser.indexOf(user);
+			
+			if (user.getEmail().equals(temp)) {
+				if (user.getEmail().equals(temp)) {
 
-			if (arrUser.get(i).getEmail() == temp) { // does not work -- must be fixed.
-
-				System.out.println("Deleted!");
-
+					arrUser.remove(indx);
+					System.out.println("User deleted.");
+				}
 			} else {
-
 				System.out.println("Email not found");
 			}
 		}
+		 showMenu();
 
 	}
 
@@ -76,55 +79,60 @@ public class cUserApp {
 		System.out.println("Enter your email: ");
 		String temp = sc.next();
 
-		int i;
-		for (i = 0; i < arrUser.size(); i++) {
+		for (cUserData upUser : arrUser) {
+			if (upUser.getEmail().equals(temp)) {
+				
+				int indx = arrUser.indexOf(upUser);
+				
+				if (arrUser.contains(upUser)) {
+					
+					arrUser.remove(indx);
 
-			if (temp == arrUser.get(i).getEmail()) // does not work -- must be fixed.
-			{
-				System.out.println("Enter updated name: ");
-				fname = sc.next();
+					System.out.println("Enter updated name: ");
+					fname = sc.next();
 
-				System.out.println("Enter updated surname: ");
-				lname = sc.next();
+					System.out.println("Enter updated surname: ");
+					lname = sc.next();
 
-				System.out.println("Enter updated email: ");
-				email = sc.next();
+					System.out.println("Enter updated email: ");
+					email = sc.next();
 
-				System.out.println("Enter updated date of birth: ");
-				dob = sc.next();
+					System.out.println("Enter updated date of birth: ");
+					dob = sc.next();
 
-				System.out.println("Updated successfully!");
+					// validate date of birth
+					String date = objUser.getDob();
+					int day = Integer.parseInt(date.split("/")[0]);
+					int mon = Integer.parseInt(date.split("/")[1]);
+					int year = Integer.parseInt(date.split("/")[2]);
 
-				// validate date of birth
-				String date = objUser.getDob();
-				int day = Integer.parseInt(date.split("/")[0]);
-				int mon = Integer.parseInt(date.split("/")[1]);
-				int year = Integer.parseInt(date.split("/")[2]);
+					if (!isValidDate(day, mon, year)) {
+						System.out.println();
+					} else {
 
-				if (!isValidDate(day, mon, year)) {
-					System.out.println();
+						// calculate age
+						age = 2022 - year;
+						objUser.setAge(age);
+					}
+					objUser = new cUserData(fname, lname, email, dob, age);
+
+					// add values to array list
+					
+
+					arrUser.get(indx).setFname(objUser.getFname());
+					arrUser.get(indx).setLname(objUser.getLname());
+					arrUser.get(indx).setEmail(objUser.getEmail());
+					arrUser.get(indx).setDob(objUser.getDob());
+					arrUser.get(indx).setAge(objUser.getAge());
+
+					System.out.println("Hello " + fname + " " + lname + " your details have been updated.");
+
 				} else {
-
-					// calculate age
-					age = 2022 - year;
-					objUser.setAge(age);
+					System.out.println("Unable to find the email provided.");
 				}
-				objUser = new cUserData(fname, lname, email, dob, age);
-
-				// add values to array list
-
-				arrUser.get(i).setFname(objUser.getFname());
-				arrUser.get(i).setLname(objUser.getLname());
-				arrUser.get(i).setEmail(objUser.getEmail());
-				arrUser.get(i).setDob(objUser.getDob());
-				arrUser.get(i).setAge(objUser.getAge());
-
-				System.out.println("Hello " + fname + " " + lname + " your details have been updated.");
-
-			} else {
-				System.out.println("Unable to find the email provided.");
 			}
 		}
+		 showMenu();
 
 	}
 
@@ -176,7 +184,7 @@ public class cUserApp {
 		int year = Integer.parseInt(date.split("/")[2]);
 
 		if (!isValidDate(day, mon, year)) {
-			System.out.println();
+			System.out.println("Incorrect date entered.");
 		} else {
 			// calculate age
 			age = 2022 - year;
@@ -190,7 +198,7 @@ public class cUserApp {
 
 		return objUser;
 	}
-
+	// check if date is a leap year
 	public static boolean isLeapYear(int yy) {
 		if (yy % 400 == 0) {
 			return true;
@@ -201,7 +209,7 @@ public class cUserApp {
 		}
 
 	}
-
+	// check validity of the date
 	public static boolean isValidDate(int dd, int mm, int yy) {
 		if (dd < 1 || mm < 1 || yy < 1 || mm > 12) {
 			return false;
@@ -211,7 +219,7 @@ public class cUserApp {
 			return dd <= monthN[mm];
 		}
 	}
-
+	// Display menu
 	public static int showMenu() {
 
 		System.out.println("=========================");

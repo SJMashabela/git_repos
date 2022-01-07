@@ -54,22 +54,22 @@ public class cUserApp {
 
 		System.out.println("Enter your email: ");
 		temp = sc.next();
+		String msg = "";
 
 		for (cUserData user : arrUser) {
 			int indx = arrUser.indexOf(user);
-			
 			if (user.getEmail().equals(temp)) {
-				if (user.getEmail().equals(temp)) {
 
-					arrUser.remove(indx);
-					System.out.println("User deleted.");
-				}
+				arrUser.remove(indx);
+				msg = "Deleted";
+
 			} else {
-				System.out.println("Email not found");
+				msg = "User not found";
 			}
-		}
-		 showMenu();
 
+			System.out.println(msg);
+		}
+		System.out.println(msg);
 	}
 
 	// update user
@@ -78,15 +78,16 @@ public class cUserApp {
 
 		System.out.println("Enter your email: ");
 		String temp = sc.next();
+		String status = "";
 
 		for (cUserData upUser : arrUser) {
 			if (upUser.getEmail().equals(temp)) {
-				
+
 				int indx = arrUser.indexOf(upUser);
-				
+
 				if (arrUser.contains(upUser)) {
-					
-					arrUser.remove(indx);
+
+					// arrUser.remove(upUser);
 
 					System.out.println("Enter updated name: ");
 					fname = sc.next();
@@ -117,7 +118,6 @@ public class cUserApp {
 					objUser = new cUserData(fname, lname, email, dob, age);
 
 					// add values to array list
-					
 
 					arrUser.get(indx).setFname(objUser.getFname());
 					arrUser.get(indx).setLname(objUser.getLname());
@@ -125,17 +125,16 @@ public class cUserApp {
 					arrUser.get(indx).setDob(objUser.getDob());
 					arrUser.get(indx).setAge(objUser.getAge());
 
-					System.out.println("Hello " + fname + " " + lname + " your details have been updated.");
+					status = "Hello " + fname + " " + lname + " your details have been updated.";
 
 				} else {
-					System.out.println("Unable to find the email provided.");
+					status = "User not found";
 				}
 			}
 		}
-		 showMenu();
+		System.out.println(status);
 
 	}
-
 	// list users method
 	public static ArrayList<cUserData> listAll() {
 

@@ -26,33 +26,33 @@ public class cUserApp {
 		
 		try {
 			
-			int cnt = showMenu();
 			
-			while(cnt != 5) {
-				
-				switch (cnt) {
-				case 1:
+			
+			while (count != 5) {
+				showMenu();
+
+				if (count == 1) {
 					Add();
-					break;
-				case 2:
+					// showMenu();
+				} else if (count == 2) {
 					update();
-					break;
-				case 3:
+					// showMenu();
+				} else if (count == 3) {
 					delete();
-					break;
-				case 4: 
+					// showMenu();
+				} else if (count == 4) {
 					listAll();
-					break;
-				case 5:
-					System.out.println("Goodbye");
+					// showMenu();
+				} else {
+					System.out.println("Goodbye...");
 				}
-				
+
 			}
 			
 			
 		}catch(Exception e) {
 			
-			
+			System.out.println("Error: " + e.getMesssage());
 		}
 
 	}

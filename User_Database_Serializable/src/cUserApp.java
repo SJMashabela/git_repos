@@ -245,7 +245,6 @@ public class cUserApp {
 
 		// validate dob and calculate age
 		String date = dob;
-
 		int day = Integer.parseInt(date.split("/")[0]);
 		int mon = Integer.parseInt(date.split("/")[1]);
 		int year = Integer.parseInt(date.split("/")[2]);
@@ -258,20 +257,29 @@ public class cUserApp {
 			age = 2022 - year;
 			objUser.setAge(age);
 		}
-		objUser = new cUser(fname, lname, email, dob, age);
+		
+		objUser = new cUser();
+		objUser.setFname(fname);
+		objUser.setLname(lname);
+		objUser.setEmail(email);
+		objUser.setDob(dob);
+		objUser.setAge(age);
+
+		arrUser.add(objUser);
 
 		arrUser.add(objUser);
 		
-		// write the new array list to file
-				try {
-						
-							serialiseToFile(objUser, path);
+		/// write the new array list to file
+		try {
+			int i;
+			for(i =0; i < arrUser.size(); i++){
+			serialiseToFile(arrUser.get(i), path);}
 
-				} catch (IOException e) {
+		} catch (IOException ex) {
 
-						System.out.println(e.getMessage());
+			System.out.println(ex.getMessage());
 
-				}
+		}
 		
 		
 		System.out.println("Hello " + fname + " " + lname + " your details have been saved to the database");

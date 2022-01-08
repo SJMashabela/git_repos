@@ -23,6 +23,37 @@ public class cUserApp {
 	private static String path = "User_Database_Serializable/src/";
 
 	public static void main(String[] args) {
+		
+		try {
+			
+			int cnt = showMenu();
+			
+			while(cnt != 5) {
+				
+				switch (cnt) {
+				case 1:
+					Add();
+					break;
+				case 2:
+					update();
+					break;
+				case 3:
+					delete();
+					break;
+				case 4: 
+					listAll();
+					break;
+				case 5:
+					System.out.println("Goodbye");
+				}
+				
+			}
+			
+			
+		}catch(Exception e) {
+			
+			
+		}
 
 	}
 
@@ -60,7 +91,7 @@ public class cUserApp {
 	// delete user
 
 	public static void delete() {
-
+		String msg = "";
 		System.out.println("Enter email: ");
 		String search = sc.next();
 
@@ -81,8 +112,15 @@ public class cUserApp {
 					System.out.println(e.getMessage());
 
 				}
+
+				msg = "User was deleted.";
+
+			} else {
+				msg = "User was not found";
 			}
 		}
+
+		System.out.println(msg);
 
 	}
 
@@ -90,56 +128,67 @@ public class cUserApp {
 	// takes in email
 	public static void update() {
 		String msg = "";
-		
+
 		// get email from user to be updated
-		
+
 		System.out.println();
 		String temp = sc.next();
-		
+
 		for (cUser user : arrUser) {
 			int i = arrUser.indexOf(user);
-			
-			if(user.getEmail() == temp) {
+
+			if (user.getEmail() == temp) {
 				// remove the user once found
 				arrUser.remove(user);
-				
+
 				// get new user inputs
 				System.out.println("Enter your name: ");
 				fname = sc.next();
-				
+
 				System.out.println("Enter your surname: ");
 				lname = sc.next();
-				
+
 				System.out.println("Enter updated email: ");
 				email = sc.next();
-				
+
 				System.out.println("Enter updated date of birth(dd/mm/yyyy)");
 				dob = sc.next();
 
 				// validate date of birth and calculate age
 				String date = dob;
-				
+
 				int day = Integer.parseInt(date.split("/")[0]);
 				int mon = Integer.parseInt(date.split("/")[1]);
 				int year = Integer.parseInt(date.split("/")[2]);
 
 				if (!isValidDate(day, mon, year)) {
-					System.out.println();
+					System.out.println("Invalid date of birth");
 				} else {
 
 					// calculate age
 					age = 2022 - year;
 					objUser.setAge(age);
 				}
-				
-				
+				objUser = new cUser(fname, lname, email, dob, age);
+
+				arrUser.get(i).setFname(objUser.getFname());
+				arrUser.get(i).setLname(objUser.getLname());
+				arrUser.get(i).setEmail(objUser.getEmail());
+				arrUser.get(i).setDob(objUser.getDob());
+				arrUser.get(i).setAge(objUser.getAge());
+
+				msg = "Hello " + fname + ", your details were updated";
+
+			} else {
+
+				msg = "User was not found.";
 			}
-			
+
 			// write the new array list to file
 			try {
 				if (!arrUser.contains(user)) {
 					serialiseToFile(arrUser.get(i), path);
-				} 
+				}
 
 			} catch (IOException e) {
 
@@ -147,7 +196,7 @@ public class cUserApp {
 
 			}
 		}
-		
+
 		System.out.println(msg);
 
 	}
@@ -180,6 +229,52 @@ public class cUserApp {
 	}
 
 	public static cUser Add() {
+
+		// get user inputs
+		System.out.println("Enter your name: ");
+		fname = sc.next();
+
+		System.out.println("Enter your surname: ");
+		lname = sc.next();
+
+		System.out.println("Enter your email: ");
+		email = sc.next();
+
+		System.out.println("Enter your date of birth(dd/mm/yyyy): ");
+		dob = sc.next();
+
+		// validate dob and calculate age
+		String date = dob;
+
+		int day = Integer.parseInt(date.split("/")[0]);
+		int mon = Integer.parseInt(date.split("/")[1]);
+		int year = Integer.parseInt(date.split("/")[2]);
+
+		if (!isValidDate(day, mon, year)) {
+			System.out.println("Invalid date of birth");
+		} else {
+
+			// calculate age
+			age = 2022 - year;
+			objUser.setAge(age);
+		}
+		objUser = new cUser(fname, lname, email, dob, age);
+
+		arrUser.add(objUser);
+		
+		// write the new array list to file
+				try {
+						
+							serialiseToFile(objUser, path);
+
+				} catch (IOException e) {
+
+						System.out.println(e.getMessage());
+
+				}
+		
+		
+		System.out.println("Hello " + fname + " " + lname + " your details have been saved to the database");
 
 		return objUser;
 	}

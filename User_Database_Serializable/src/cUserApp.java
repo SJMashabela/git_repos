@@ -204,86 +204,90 @@ public class cUserApp {
 	// list users method
 	public static ArrayList<cUser> listAll() {
 
-		int i;
 		try {
-
-		} catch (Exception e) {
-
+			
+			deserializeFromFile(path);
+				
+			for(cUser usr: arrUser) {
+				
+				System.out.println("--------All Users---------");
+				System.out.println("Name: " + usr.getFname());
+				System.out.println("Name: " + usr.getLname());
+				System.out.println("Name: " + usr.getEmail());
+				System.out.println("Name: " + usr.getAge());
+				System.out.println("--------------------------");
+				
+			}
+			
+			
+			
+		}catch(Exception ex) {
+			System.out.println(ex.getMessage());
 		}
-
-		for (i = 0; i < arrUser.size(); i++) {
-
-			fname = arrUser.get(i).getFname();
-			lname = arrUser.get(i).getLname();
-			email = arrUser.get(i).getEmail();
-			dob = arrUser.get(i).getDob();
-			age = arrUser.get(i).getAge();
-			objUser = new cUser(fname, lname, email, dob, age);
-
-			System.out.println(objUser.toString());
-
-		}
-
 		return arrUser;
 
 	}
 
 	public static cUser Add() {
 
+		String msg = "";
+		objUser = new cUser();
+		
 		// get user inputs
 		System.out.println("Enter your name: ");
 		fname = sc.next();
-
+		objUser.setFname(fname);
+		
 		System.out.println("Enter your surname: ");
 		lname = sc.next();
-
+		objUser.setLname(lname);
+		
 		System.out.println("Enter your email: ");
 		email = sc.next();
-
-		System.out.println("Enter your date of birth(dd/mm/yyyy): ");
+		objUser.setEmail(email);
+		
+		System.out.println("Enter your date of birth: ");
 		dob = sc.next();
-
-		// validate dob and calculate age
-		String date = dob;
-		int day = Integer.parseInt(date.split("/")[0]);
-		int mon = Integer.parseInt(date.split("/")[1]);
-		int year = Integer.parseInt(date.split("/")[2]);
-
-		if (!isValidDate(day, mon, year)) {
-			System.out.println("Invalid date of birth");
-		} else {
-
-			// calculate age
+		objUser.setDob(dob);
+		
+		
+		
+		int day = Integer.parseInt(dob.split("/")[0]);
+		int mon = Integer.parseInt(dob.split("/")[1]);
+		int year = Integer.parseInt(dob.split("/")[2]);
+		
+		if(isValidDate(day,mon,year)) {
+			
 			age = 2022 - year;
 			objUser.setAge(age);
+			
+		} else {
+			
+			System.out.println("Error: Invalid date of birth");
+			
 		}
-		
-		objUser = new cUser();
-		objUser.setFname(fname);
-		objUser.setLname(lname);
-		objUser.setEmail(email);
-		objUser.setDob(dob);
-		objUser.setAge(age);
-
-		arrUser.add(objUser);
-
 		arrUser.add(objUser);
 		
-		/// write the new array list to file
+		
+		
 		try {
-			int i;
-			for(i =0; i < arrUser.size(); i++){
-			serialiseToFile(arrUser.get(i), path);}
-
-		} catch (IOException ex) {
-
-			System.out.println(ex.getMessage());
-
+			
+			for(cUser user: arrUser) {
+				int temp = arrUser.indexOf(user);
+				
+				if(!arrUser.get(temp).equals(user)){// write array list values to file
+					serialiseToFile(arrUser.get(temp), path);
+				}
+			}
+			msg = "User added successfully.";
+			
+		} catch(Exception ex) {
+			msg = "Unable to add user";
+			System.out.println("Error: " + ex.getMessage());
 		}
 		
+		System.out.println(msg);
 		
-		System.out.println("Hello " + fname + " " + lname + " your details have been saved to the database");
-
 		return objUser;
 	}
 

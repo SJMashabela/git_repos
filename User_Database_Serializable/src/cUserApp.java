@@ -215,11 +215,11 @@ public class cUserApp {
 				System.out.println("Name: " + usr.getLname());
 				System.out.println("Name: " + usr.getEmail());
 				System.out.println("Name: " + usr.getAge());
-				System.out.println("--------------------------");
+				
 				
 			}
 			
-			
+			System.out.println("--------------------------");
 			
 		}catch(Exception ex) {
 			System.out.println(ex.getMessage());
